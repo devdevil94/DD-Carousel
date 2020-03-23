@@ -3,29 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <link rel="stylesheet" href="global.css" /> -->
     <link rel="stylesheet" href="css/slider.css" />
     <title>Devdevil Slider</title>
   </head>
   <body>
-    <div class="dd-slider">
-      <div class="slide-list">
-        <div class="dd-slide active">
-          Slide 1
+    <div class="dd-carousel">
+      <button class="dd-carousel_button button--left hidden">
+        <i class="material-icons">chevron_left</i>
+      </button>
+      <div class="dd-carousel_container">
+        <div class="dd-carousel_track">
+          <div class="dd-carousel_slide active">
+            Slide 1
+          </div>
+          <div class="dd-carousel_slide">
+            Slide 2
+          </div>
+          <div class="dd-carousel_slide">
+            Slide 3
+          </div>
         </div>
-        <div class="dd-slide">
-          Slide 2
-        </div>
-        <div class="dd-slide">
-          Slide 3
-        </div>
+      </div>
+      <button class="dd-carousel_button button--right">
+        <i class="material-icons">chevron_right</i>
+      </button>
+      <div class="dd-carousel_nav">
+        <button class="dd-carousel_indicator active"></button>
+        <button class="dd-carousel_indicator"></button>
+        <button class="dd-carousel_indicator"></button>
       </div>
     </div>
 
     <script src="js/index.js"></script>
     <script>
-      const slider = new DD_Slider("#slider");
-      slider.init();
+      // const slider = new DD_Slider("#slider");
+      // slider.init();
     </script>
   </body>
 </html>
