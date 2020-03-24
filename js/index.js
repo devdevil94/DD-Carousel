@@ -30,15 +30,17 @@ class DD_Carousel {
 
   initEvents() {
     this.nextButton.click(() => {
-      const currentSlide = this.track.find(".dd-carousel_slide.current");
-      const nextSlide = currentSlide.next();
-
-      this.moveToSlide(currentSlide, nextSlide);
+      this.nextSlide();
     });
+  }
+  nextSlide() {
+    const currentSlide = this.track.find(".dd-carousel_slide.current");
+    const nextSlide = currentSlide.next();
+    this.moveToSlide(currentSlide, nextSlide);
   }
   moveToSlide(currentSlide, targetSlide) {
     this.track.css("transform", `translateX(-${targetSlide.css("left")})`);
-    console.log(targetSlide.css("left"));
+
     currentSlide.removeClass("current");
     targetSlide.addClass("current");
   }
