@@ -1,24 +1,29 @@
 class DD_Carousel {
-  constructor(id) {
+  constructor(id, options) {
     this.id = id;
+    this.options = options || {};
   }
 
   init() {
     this.track = $(".dd-carousel_track");
 
+    this.currentSlide = $(".dd-carousel_slide.active");
     this.slides = Array.from(this.track.children(".dd-carousel_slide"));
     this.slideSize = this.slides[0].getBoundingClientRect();
     this.slideWidth = this.slideSize.width;
 
+    this.setInitialSlidesPositions();
+
     this.nextButton = $(".dd-carousel_button.next-button");
     this.prevButton = $(".dd-carousel_button.prev-button");
 
-    this.createNav();
+    this.options.indicators && this.createNav();
+  }
 
-    // this.carouselNav = $(".dd-carousel_nav");
-    // this.indicators = Array.from(
-    //   this.carouselNav.children(".dd-carousel_indicator")
-    // );
+  setInitialSlidesPositions() {
+    this.slides.forEach((slide, i) => {
+      slide.style.left = this.slideWidth * i + "px";
+    });
   }
 
   createNav() {
