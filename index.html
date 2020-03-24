@@ -4,16 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/slider.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>Devdevil Slider</title>
   </head>
   <body>
-    <div class="dd-carousel">
-      <button class="dd-carousel_button button--left hidden">
+    <div class="dd-carousel" id="dd_Carousel">
+      <button class="dd-carousel_button prev-button hidden">
         <i class="material-icons">chevron_left</i>
       </button>
       <div class="dd-carousel_container">
         <div class="dd-carousel_track">
-          <div class="dd-carousel_slide active">
+          <div class="dd-carousel_slide current">
             Slide 1
           </div>
           <div class="dd-carousel_slide">
@@ -24,20 +25,15 @@
           </div>
         </div>
       </div>
-      <button class="dd-carousel_button button--right">
+      <button class="dd-carousel_button next-button">
         <i class="material-icons">chevron_right</i>
       </button>
-      <div class="dd-carousel_nav">
-        <button class="dd-carousel_indicator active"></button>
-        <button class="dd-carousel_indicator"></button>
-        <button class="dd-carousel_indicator"></button>
-      </div>
     </div>
 
     <script src="js/index.js"></script>
     <script>
-      // const slider = new DD_Slider("#slider");
-      // slider.init();
+      const carousel = new DD_Carousel("dd_Carousel", { indicators: true });
+      carousel.init();
     </script>
   </body>
 </html>
