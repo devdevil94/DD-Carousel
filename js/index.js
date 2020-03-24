@@ -18,14 +18,30 @@ class DD_Carousel {
     this.prevButton = $(".dd-carousel_button.prev-button");
 
     this.options.indicators && this.createNav();
+
+    this.initEvents();
   }
 
   setInitialSlidesPositions() {
     this.slides.forEach((slide, i) => {
-      slide.style.left = this.slideWidth * i + "px";
+      $(slide).css("left", this.slideWidth * i + "px");
     });
   }
 
+  initEvents() {
+    this.nextButton.click(() => {
+      const currentSlide = this.track.find(".dd-carousel_slide.current");
+      const nextSlide = currentSlide.next();
+
+      this.moveToSlide(currentSlide, nextSlide);
+    });
+  }
+  moveToSlide(currentSlide, targetSlide) {
+    this.track.css("transform", `translateX(-${targetSlide.css("left")})`);
+    console.log(targetSlide.css("left"));
+    currentSlide.removeClass("current");
+    targetSlide.addClass("current");
+  }
   createNav() {
     this.carouselNav = $(`<div class="dd-carousel_nav"></div>`);
     this.indicators = this.slides.map((_, i) =>
