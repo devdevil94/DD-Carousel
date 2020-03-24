@@ -73,10 +73,10 @@
   > .dd-carousel_slide:nth-child(3) {
   background-color: rgb(155, 35, 129);
 }
-.button--left {
+.prev-button {
   left: -40px;
 }
-.button--right {
+.next-button {
   right: -40px;
 }
 .hidden {
