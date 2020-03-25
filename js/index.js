@@ -31,14 +31,27 @@ class DD_Carousel {
   initEvents() {
     this.nextButton.click(() => {
       this.nextSlide();
+      // const nextIndex = slides.findIndex(slide => slide === nextSlide);
+      // hideShowArrows(slides, prevButton, nextButton, nextIndex);
     });
+  }
+  nextIndicator() {
+    const currentIndicator = this.carouselNav.find(
+      ".dd-carousel_indicator.current"
+    );
+    const nextIndicator = currentIndicator.next();
+    this.toIndicator(currentIndicator, nextIndicator);
+  }
+  toIndicator(currentIndicator, targetIndicator) {
+    currentIndicator.classList.remove("current");
+    targetIndicator.classList.add("current");
   }
   nextSlide() {
     const currentSlide = this.track.find(".dd-carousel_slide.current");
     const nextSlide = currentSlide.next();
-    this.moveToSlide(currentSlide, nextSlide);
+    this.toSlide(currentSlide, nextSlide);
   }
-  moveToSlide(currentSlide, targetSlide) {
+  toSlide(currentSlide, targetSlide) {
     this.track.css("transform", `translateX(-${targetSlide.css("left")})`);
 
     currentSlide.removeClass("current");
@@ -49,7 +62,7 @@ class DD_Carousel {
     this.indicators = this.slides.map((_, i) =>
       $(
         `<button class="dd-carousel_indicator${
-          i === 0 ? " active" : ""
+          i === 0 ? " current" : ""
         }"></button>`
       )
     );
