@@ -40,7 +40,16 @@ class DD_Carousel {
 
     this.prevButton.click(() => {
       const prevSlide = this.prevSlide();
+
+      this.prevIndicator();
     });
+  }
+  prevIndicator() {
+    const currentIndicator = this.carouselNav.find(
+      ".dd-carousel_indicator.current"
+    );
+    const prevIndicator = currentIndicator.prev();
+    this.toIndicator(currentIndicator, prevIndicator);
   }
   prevSlide() {
     const currentSlide = this.track.find(".dd-carousel_slide.current");
@@ -49,6 +58,7 @@ class DD_Carousel {
 
     return prevSlide;
   }
+
   displayArrows(targetIndex) {
     if (targetIndex === 0) {
       this.prevButton.addClass("hidden");
