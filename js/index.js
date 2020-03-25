@@ -37,8 +37,18 @@ class DD_Carousel {
       const nextIndex = this.slides.findIndex(slide => slide === nextSlide);
       this.displayArrows(nextIndex);
     });
-  }
 
+    this.prevButton.click(() => {
+      const prevSlide = this.prevSlide();
+    });
+  }
+  prevSlide() {
+    const currentSlide = this.track.find(".dd-carousel_slide.current");
+    const prevSlide = currentSlide.prev();
+    this.toSlide(currentSlide, prevSlide);
+
+    return prevSlide;
+  }
   displayArrows(targetIndex) {
     if (targetIndex === 0) {
       this.prevButton.addClass("hidden");
