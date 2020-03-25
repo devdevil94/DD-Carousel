@@ -7,7 +7,7 @@ class DD_Carousel {
   init() {
     this.track = $(".dd-carousel_track");
 
-    this.currentSlide = $(".dd-carousel_slide.active");
+    this.currentSlide = $(".dd-carousel_slide.current");
     this.slides = Array.from(this.track.children(".dd-carousel_slide"));
     this.slideSize = this.slides[0].getBoundingClientRect();
     this.slideWidth = this.slideSize.width;
@@ -46,7 +46,24 @@ class DD_Carousel {
       const prevIndex = this.slides.findIndex(slide => slide === prevSlide[0]);
       this.displayArrows(prevIndex);
     });
+
+    this.indicators.forEach((indicator, index) => {
+      $(indicator).click(() => {
+        this.targetSlide(index);
+      });
+    });
   }
+  targetSlide(index) {
+    if (index < 0 || index > this.slides.length - 1) return;
+
+    const currentSlide = this.track.find(".dd-carousel_slide.current");
+    const targetSlide = $(this.slides[index]);
+
+    this.toSlide(currentSlide, targetSlide);
+
+    return targetSlide;
+  }
+
   prevIndicator() {
     const currentIndicator = this.carouselNav.find(
       ".dd-carousel_indicator.current"
