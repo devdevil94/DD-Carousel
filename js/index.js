@@ -51,6 +51,7 @@ class DD_Carousel {
       $(indicator).click(() => {
         this.targetSlide(index);
         this.targetIndicator(index);
+        this.displayArrows(index);
       });
     });
   }
