@@ -30,11 +30,28 @@ class DD_Carousel {
 
   initEvents() {
     this.nextButton.click(() => {
-      this.nextSlide();
-      // const nextIndex = slides.findIndex(slide => slide === nextSlide);
-      // hideShowArrows(slides, prevButton, nextButton, nextIndex);
+      const nextSlide = this.nextSlide();
+
+      this.nextIndicator();
+
+      const nextIndex = this.slides.findIndex(slide => slide === nextSlide);
+      this.displayArrows(nextIndex);
     });
   }
+
+  displayArrows(targetIndex) {
+    if (targetIndex === 0) {
+      this.prevButton.addClass("hidden");
+      this.nextButton.removeClass("hidden");
+    } else if (targetIndex === this.slides.length - 1) {
+      this.prevButton.removeClass("hidden");
+      this.nextButton.addClass("hidden");
+    } else {
+      this.prevButton.removeClass("hidden");
+      this.nextButton.removeClass("hidden");
+    }
+  }
+
   nextIndicator() {
     const currentIndicator = this.carouselNav.find(
       ".dd-carousel_indicator.current"
@@ -43,13 +60,16 @@ class DD_Carousel {
     this.toIndicator(currentIndicator, nextIndicator);
   }
   toIndicator(currentIndicator, targetIndicator) {
-    currentIndicator.classList.remove("current");
-    targetIndicator.classList.add("current");
+    currentIndicator.removeClass("current");
+    targetIndicator.addClass("current");
   }
+
   nextSlide() {
     const currentSlide = this.track.find(".dd-carousel_slide.current");
     const nextSlide = currentSlide.next();
     this.toSlide(currentSlide, nextSlide);
+
+    return nextSlide;
   }
   toSlide(currentSlide, targetSlide) {
     this.track.css("transform", `translateX(-${targetSlide.css("left")})`);
@@ -57,6 +77,7 @@ class DD_Carousel {
     currentSlide.removeClass("current");
     targetSlide.addClass("current");
   }
+
   createNav() {
     this.carouselNav = $(`<div class="dd-carousel_nav"></div>`);
     this.indicators = this.slides.map((_, i) =>
