@@ -20,7 +20,7 @@
   margin: 0 10px;
   cursor: pointer;
 }
-.dd-carousel > .dd-carousel_nav > .dd-carousel_indicator.active {
+.dd-carousel > .dd-carousel_nav > .dd-carousel_indicator.current {
   background: rgba(0, 0, 0, 0.75);
 }
 .dd-carousel > .dd-carousel_button {
