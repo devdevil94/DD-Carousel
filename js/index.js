@@ -37,20 +37,13 @@ class DD_Carousel {
 
   initEvents() {
     this.nextButton.click(() => {
-      if (this.currentSlideIndex === this.slides.length - 1) return;
-
-      this.nextSlide();
-      this.nextIndicator();
+      this.next();
       this.displayArrows();
     });
 
     this.prevButton.click(() => {
-      const prevSlide = this.prevSlide();
-
-      this.prevIndicator();
-
-      const prevIndex = this.slides.findIndex(slide => slide === prevSlide[0]);
-      this.displayArrows(prevIndex);
+      this.prev();
+      this.displayArrows();
     });
 
     this.indicators.forEach((indicator, index) => {
@@ -63,6 +56,7 @@ class DD_Carousel {
   }
 
   targetIndicator(index) {
+    console.log(index);
     const currentIndicator = this.carouselNav.find(
       ".dd-carousel_indicator.current"
     );
@@ -75,23 +69,6 @@ class DD_Carousel {
     const targetSlide = $(this.slides[index]);
 
     this.toSlide(currentSlide, targetSlide);
-
-    return targetSlide;
-  }
-
-  prevIndicator() {
-    const currentIndicator = this.carouselNav.find(
-      ".dd-carousel_indicator.current"
-    );
-    const prevIndicator = currentIndicator.prev();
-    this.toIndicator(currentIndicator, prevIndicator);
-  }
-  prevSlide() {
-    const currentSlide = this.track.find(".dd-carousel_slide.current");
-    const prevSlide = currentSlide.prev();
-    this.toSlide(currentSlide, prevSlide);
-
-    return prevSlide;
   }
 
   displayArrows() {
@@ -107,18 +84,26 @@ class DD_Carousel {
     }
   }
 
-  nextIndicator() {
-    this.currentSlideIndex++;
+  prev() {
+    if (this.currentSlideIndex === 0) return;
+
+    this.currentSlideIndex--;
+
+    this.targetSlide(this.currentSlideIndex);
     this.targetIndicator(this.currentSlideIndex);
   }
+  next() {
+    if (this.currentSlideIndex === this.slides.length - 1) return;
+
+    this.currentSlideIndex++;
+
+    this.targetSlide(this.currentSlideIndex);
+    this.targetIndicator(this.currentSlideIndex);
+  }
+
   toIndicator(currentIndicator, targetIndicator) {
     currentIndicator.removeClass("current");
     targetIndicator.addClass("current");
-  }
-
-  nextSlide() {
-    this.currentSlideIndex++;
-    this.targetSlide(this.currentSlideIndex);
   }
   toSlide(currentSlide, targetSlide) {
     this.track.css("transform", `translateX(-${targetSlide.css("left")})`);
