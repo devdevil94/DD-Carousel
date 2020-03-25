@@ -50,17 +50,18 @@ class DD_Carousel {
     this.indicators.forEach((indicator, index) => {
       $(indicator).click(() => {
         this.targetSlide(index);
-        this.targetIndicator($(indicator));
+        this.targetIndicator(index);
       });
     });
   }
 
-  targetIndicator(indicator) {
+  targetIndicator(index) {
     const currentIndicator = this.carouselNav.find(
       ".dd-carousel_indicator.current"
     );
+    const targetIndicator = $(this.indicators[index]);
 
-    this.toIndicator(currentIndicator, indicator);
+    this.toIndicator(currentIndicator, targetIndicator);
   }
   targetSlide(index) {
     if (index < 0 || index > this.slides.length - 1) return;
