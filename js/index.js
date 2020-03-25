@@ -13,26 +13,34 @@ class DD_Carousel {
     this.slideSize = this.slides[0].getBoundingClientRect();
     this.slideWidth = this.slideSize.width;
 
+    //TODO: Display error message when 'current' class name is not added to a .dd-carousel_slide element
     this.currentSlideIndex = $(".dd-carousel_slide").index(
       $(".dd-carousel_slide.current")
     );
 
-    this.setInitialSlidesPositions();
-
     this.nextButton = $(".dd-carousel_button.next-button");
     this.prevButton = $(".dd-carousel_button.prev-button");
 
+    this.setInitialSlidesPositions();
+
     this.options.indicators && this.createNav();
 
-    this.targetSlide(this.currentSlideIndex);
     this.targetIndicator(this.currentSlideIndex);
 
     this.initEvents();
   }
   setInitialSlidesPositions() {
     this.slides.forEach((slide, i) => {
-      $(slide).css("left", this.slideWidth * i + "px");
+      $(slide).css(
+        "left",
+        `${this.slideWidth * (i - this.currentSlideIndex)}px`
+      );
     });
+    this.displayArrows();
+    // $(this.slides[0]).css("left", `${-this.slideWidth * 1}px`);
+    // $(this.slides[1]).css("left", `${this.slideWidth * 0}px`);
+    // $(this.slides[2]).css("left", `${this.slideWidth * 1}px`);
+    // $(this.slides[3]).css("left", `${this.slideWidth * 2}px`);
   }
 
   initEvents() {
@@ -56,7 +64,6 @@ class DD_Carousel {
   }
 
   targetIndicator(index) {
-    console.log(index);
     const currentIndicator = this.carouselNav.find(
       ".dd-carousel_indicator.current"
     );
@@ -106,7 +113,11 @@ class DD_Carousel {
     targetIndicator.addClass("current");
   }
   toSlide(currentSlide, targetSlide) {
-    this.track.css("transform", `translateX(-${targetSlide.css("left")})`);
+    // this.track.css("transform", `translateX(-${targetSlide.css("left")})`);
+    this.track.css(
+      "transform",
+      `translateX(${-1 * parseFloat(targetSlide.css("left"))}px)`
+    );
 
     currentSlide.removeClass("current");
     targetSlide.addClass("current");
