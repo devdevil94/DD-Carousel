@@ -34,7 +34,7 @@ class DD_Carousel {
 
       this.nextIndicator();
 
-      const nextIndex = this.slides.findIndex(slide => slide === nextSlide);
+      const nextIndex = this.slides.findIndex(slide => slide === nextSlide[0]);
       this.displayArrows(nextIndex);
     });
 
@@ -42,6 +42,9 @@ class DD_Carousel {
       const prevSlide = this.prevSlide();
 
       this.prevIndicator();
+
+      const prevIndex = this.slides.findIndex(slide => slide === prevSlide[0]);
+      this.displayArrows(prevIndex);
     });
   }
   prevIndicator() {
