@@ -56,9 +56,10 @@ class DD_Carousel {
 
     this.indicators.forEach((indicator, index) => {
       $(indicator).click(() => {
+        this.currentSlideIndex = index;
         this.targetSlide(index);
         this.targetIndicator(index);
-        this.displayArrows(index);
+        this.displayArrows();
       });
     });
   }
