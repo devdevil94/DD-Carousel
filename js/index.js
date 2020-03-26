@@ -7,123 +7,110 @@ class DD_Carousel {
   init() {
     this.track = $(".dd-carousel_track");
 
-    // this.currentSlide = $(".dd-carousel_slide.current");
+    this.direction = 1;
 
     this.slides = Array.from(this.track.children(".dd-carousel_slide"));
-    this.slideSize = this.slides[0].getBoundingClientRect();
-    this.slideWidth = this.slideSize.width;
 
     //TODO: Display error message when 'current' class name is not added to a .dd-carousel_slide element
     this.currentSlideIndex = $(".dd-carousel_slide").index(
       $(".dd-carousel_slide.current")
     );
 
+    // if(this.currentSlideIndex)
     this.nextButton = $(".dd-carousel_button.next-button");
     this.prevButton = $(".dd-carousel_button.prev-button");
 
-    this.setInitialSlidesPositions();
-
     this.options.indicators && this.createNav();
 
-    this.targetIndicator(this.currentSlideIndex);
-
     this.initEvents();
-  }
-  setInitialSlidesPositions() {
-    this.slides.forEach((slide, i) => {
-      $(slide).css(
-        "left",
-        `${this.slideWidth * (i - this.currentSlideIndex)}px`
-      );
-    });
-    this.displayArrows();
-    // $(this.slides[0]).css("left", `${-this.slideWidth * 1}px`);
-    // $(this.slides[1]).css("left", `${this.slideWidth * 0}px`);
-    // $(this.slides[2]).css("left", `${this.slideWidth * 1}px`);
-    // $(this.slides[3]).css("left", `${this.slideWidth * 2}px`);
   }
 
   initEvents() {
     this.nextButton.click(() => {
       this.next();
+
+      this.toSlide();
       this.displayArrows();
     });
 
     this.prevButton.click(() => {
       this.prev();
+      // this.toSlide();
+
       this.displayArrows();
     });
 
     this.indicators.forEach((indicator, index) => {
       $(indicator).click(() => {
         this.currentSlideIndex = index;
-        this.targetSlide(index);
-        this.targetIndicator(index);
-        this.displayArrows();
       });
     });
-  }
 
-  targetIndicator(index) {
-    const currentIndicator = this.carouselNav.find(
-      ".dd-carousel_indicator.current"
-    );
-    const targetIndicator = $(this.indicators[index]);
+    // this.track.on("transitionend", () => {
+    //   if (this.direction === -1) {
+    //     console.log("next slide");
+    //     this.track.append($(".dd-carousel_slide").first());
+    //   } else if (this.direction === 1) {
+    //     console.log("prev slide");
+    //     this.track.prepend($(".dd-carousel_slide").last());
+    //   }
 
-    this.toIndicator(currentIndicator, targetIndicator);
-  }
-  targetSlide(index) {
-    const currentSlide = this.track.find(".dd-carousel_slide.current");
-    const targetSlide = $(this.slides[index]);
-
-    this.toSlide(currentSlide, targetSlide);
-  }
-
-  displayArrows() {
-    if (this.currentSlideIndex === 0) {
-      this.prevButton.addClass("hidden");
-      this.nextButton.removeClass("hidden");
-    } else if (this.currentSlideIndex === this.slides.length - 1) {
-      this.prevButton.removeClass("hidden");
-      this.nextButton.addClass("hidden");
-    } else {
-      this.prevButton.removeClass("hidden");
-      this.nextButton.removeClass("hidden");
-    }
+    //   this.track.css("transition", "none");
+    //   this.track.css("transform", "translate(0)");
+    //   setTimeout(() => {
+    //     this.track.css("transition", "transform 250ms ease-in");
+    //   });
+    // });
   }
 
   prev() {
-    if (this.currentSlideIndex === 0) return;
+    if (this.currentSlideIndex === 0 && !this.options.infinite) return;
+    else if (this.currentSlideIndex === 0 && this.options.infinite) {
+      this.currentSlideIndex = this.slides.length;
+    }
 
     this.currentSlideIndex--;
-
-    this.targetSlide(this.currentSlideIndex);
-    this.targetIndicator(this.currentSlideIndex);
+    if (this.direction === -1) {
+      this.track.append($(".dd-carousel_slide").first());
+      this.direction = 1;
+    }
+    this.track.parent().css("justify-content", "flex-end");
   }
   next() {
-    if (this.currentSlideIndex === this.slides.length - 1) return;
+    if (
+      this.currentSlideIndex === this.slides.length - 1 &&
+      !this.options.infinite
+    )
+      return;
+    else if (this.currentSlideIndex === 0 && this.options.infinite) {
+      this.currentSlideIndex = -1;
+    }
 
     this.currentSlideIndex++;
-
-    this.targetSlide(this.currentSlideIndex);
-    this.targetIndicator(this.currentSlideIndex);
+    this.direction = -1;
+    this.track.parent().css("justify-content", "flex-start");
   }
 
-  toIndicator(currentIndicator, targetIndicator) {
-    currentIndicator.removeClass("current");
-    targetIndicator.addClass("current");
+  displayArrows() {
+    console.log(this.currentSlideIndex);
+    //TODO: Hide arrows when you have one slide only
+    if (this.currentSlideIndex === 0 && !this.options.infinite) {
+      this.prevButton.hide();
+      this.nextButton.show();
+    } else if (
+      this.currentSlideIndex === this.slides.length - 1 &&
+      !this.options.infinite
+    ) {
+      this.prevButton.show();
+      this.nextButton.hide();
+    } else {
+      this.prevButton.show();
+      this.nextButton.show();
+    }
   }
-  toSlide(currentSlide, targetSlide) {
-    // this.track.css("transform", `translateX(-${targetSlide.css("left")})`);
-    this.track.css(
-      "transform",
-      `translateX(${-1 * parseFloat(targetSlide.css("left"))}px)`
-    );
-
-    currentSlide.removeClass("current");
-    targetSlide.addClass("current");
+  toSlide() {
+    this.track.css("transform", `translateX(${this.direction * 25}%)`);
   }
-
   createNav() {
     this.carouselNav = $(`<div class="dd-carousel_nav"></div>`);
     this.indicators = this.slides.map((_, i) =>
