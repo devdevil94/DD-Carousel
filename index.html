@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="dd-carousel" id="dd_Carousel">
-      <button class="dd-carousel_button prev-button hidden">
+      <button class="dd-carousel_button prev-button">
         <i class="material-icons">chevron_left</i>
       </button>
       <div class="dd-carousel_container">
@@ -35,7 +35,10 @@
 
     <script src="js/index.js"></script>
     <script>
-      const carousel = new DD_Carousel("dd_Carousel", { indicators: true });
+      const carousel = new DD_Carousel("dd_Carousel", {
+        indicators: true,
+        infinite: true
+      });
       carousel.init();
     </script>
   </body>
